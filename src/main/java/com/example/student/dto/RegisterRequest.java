@@ -1,11 +1,16 @@
 package com.example.student.dto;
 
+import jakarta.validation.constraints.NotBlank;
 import lombok.Data;
 
 public class RegisterRequest {
-
+    @NotBlank(message = " required")
     private String name;
+    @NotBlank(message = " required")
     private String email;
+    @NotBlank(message = " required")
+    private String password;
+
 
     public String getName() {
         return name;
@@ -30,8 +35,6 @@ public class RegisterRequest {
     public void setPassword(String password) {
         this.password = password;
     }
-
-    private String password;
 
 
 }
