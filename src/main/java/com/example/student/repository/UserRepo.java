@@ -1,11 +1,13 @@
 package com.example.student.repository;
 
-import com.example.student.model.Role;
 import com.example.student.model.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface UserRepo extends JpaRepository<User,Integer> {
          User findByEmail(String email);
+
+
+
 
 }
 
