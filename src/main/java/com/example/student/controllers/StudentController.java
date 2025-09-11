@@ -22,9 +22,7 @@ public class StudentController {
     }
 
     @GetMapping("/student/{id}")
-
     public Student show(@PathVariable("id") int id) {
-
         return repo.findById(id).orElse(null);
     }
 

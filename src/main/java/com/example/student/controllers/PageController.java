@@ -23,7 +23,7 @@ public class PageController {
     private RoleRepo roleRepo;
 
     @Autowired
-    private PasswordEncoder passwordEncoder;
+    private PasswordEncoder  passwordEncoder;
 
     @GetMapping("/login")
     public String login() {
