@@ -9,7 +9,6 @@ public class StudentDto {
     @NotBlank(message = "not null")
     private String course;
     private int grade;
-    private int id;
 
 
 }

@@ -2,8 +2,9 @@ package com.example.student.service;
 
 import com.example.student.dtos.UserLogin;
 import com.example.student.dtos.UserRegister;
-import com.example.student.model.Role;
-import com.example.student.model.User;
+import com.example.student.entity.Role;
+import com.example.student.entity.User;
+import com.example.student.mapper.UserMapper;
 import com.example.student.repository.RoleRepo;
 import com.example.student.repository.UserRepo;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,9 +27,13 @@ public class AuthServiceImpl implements AuthService {
     @Autowired
     private PasswordEncoder passwordEncoder;
 
+    @Autowired
+    private UserMapper userMapper;
+
+
     @Override
-    public ResponseEntity<String> register(UserRegister request) {
-        if (userRepo.findByEmail(request.getEmail()) != null) {
+    public ResponseEntity<String> register(UserRegister registerDto) {
+        if (userRepo.findByEmail(registerDto.getEmail()) != null) {
             return ResponseEntity.badRequest().body("Email already exists");
         }
 
@@ -37,16 +42,15 @@ public class AuthServiceImpl implements AuthService {
             return ResponseEntity.badRequest().body("Role ROLE_USER not found in DB");
         }
 
-        User user = new User();
-        user.setName(request.getName());
-        user.setEmail(request.getEmail());
-        user.setPassword(passwordEncoder.encode(request.getPassword()));
+        User user = userMapper.toEntity(registerDto);
+        user.setPassword(passwordEncoder.encode(registerDto.getPassword()));
         user.setRoles(Set.of(roleUser));
 
         userRepo.save(user);
 
         return ResponseEntity.ok("User registered successfully");
     }
+
 
     @Override
     public ResponseEntity<String> login(UserLogin loginDto) {

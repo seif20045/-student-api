@@ -1,8 +1,9 @@
 package com.example.student.service;
 
 import com.example.student.dtos.UserRegister;
-import com.example.student.model.Role;
-import com.example.student.model.User;
+import com.example.student.entity.Role;
+import com.example.student.entity.User;
+import com.example.student.mapper.UserMapper;
 import com.example.student.repository.RoleRepo;
 import com.example.student.repository.UserRepo;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,6 +23,8 @@ public class PageServiceImpl implements PageService {
     @Autowired
     private PasswordEncoder passwordEncoder;
 
+    @Autowired
+    private UserMapper Mapper;
 
     @Override
     public String register(UserRegister registerDto) {
@@ -35,12 +38,9 @@ public class PageServiceImpl implements PageService {
 
 
         Role roleUser = roleRepo.findByName("ROLE_USER");
-        User user = new User();
-        user.setName(registerDto.getName());
-        user.setEmail(registerDto.getEmail());
+        User user = Mapper.toEntity(registerDto); ;
         user.setPassword(passwordEncoder.encode(registerDto.getPassword()));
         user.setRoles(Set.of(roleUser));
-
         userRepo.save(user);
 
         return "redirect:/login";

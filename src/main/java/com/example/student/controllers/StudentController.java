@@ -2,8 +2,7 @@ package com.example.student.controllers;
 
 
 import com.example.student.dtos.StudentDto;
-import com.example.student.model.Student;
-import com.example.student.repository.StudentRepo;
+import com.example.student.entity.Student;
 import com.example.student.service.StudentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
