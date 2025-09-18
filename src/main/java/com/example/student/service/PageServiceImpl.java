@@ -42,7 +42,7 @@ public class PageServiceImpl implements PageService {
         user.setPassword(passwordEncoder.encode(registerDto.getPassword()));
         user.setRoles(Set.of(roleUser));
         userRepo.save(user);
-
+        System.out.println("Mapped User => " + user);
         return "redirect:/login";
 
 

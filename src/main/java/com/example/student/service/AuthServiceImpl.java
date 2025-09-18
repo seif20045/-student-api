@@ -43,6 +43,7 @@ public class AuthServiceImpl implements AuthService {
         }
 
         User user = userMapper.toEntity(registerDto);
+        System.out.println("Mapped User: " + user);
         user.setPassword(passwordEncoder.encode(registerDto.getPassword()));
         user.setRoles(Set.of(roleUser));
 
