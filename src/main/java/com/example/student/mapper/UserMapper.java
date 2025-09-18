@@ -1,7 +1,7 @@
 package com.example.student.mapper;
 
 
-import com.example.student.dtos.UserLogin;
+
 import com.example.student.dtos.UserRegister;
 import com.example.student.entity.User;
 import org.mapstruct.Mapper;
