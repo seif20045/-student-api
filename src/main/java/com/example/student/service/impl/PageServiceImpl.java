@@ -1,4 +1,4 @@
-package com.example.student.service;
+package com.example.student.service.impl;
 
 import com.example.student.dtos.UserRegister;
 import com.example.student.entity.Role;
@@ -6,6 +6,7 @@ import com.example.student.entity.User;
 import com.example.student.mapper.UserMapper;
 import com.example.student.repository.RoleRepo;
 import com.example.student.repository.UserRepo;
+import com.example.student.service.PageService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -42,7 +43,7 @@ public class PageServiceImpl implements PageService {
         user.setPassword(passwordEncoder.encode(registerDto.getPassword()));
         user.setRoles(Set.of(roleUser));
         userRepo.save(user);
-        System.out.println("Mapped User => " + user);
+
         return "redirect:/login";
 
 

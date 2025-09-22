@@ -1,14 +1,16 @@
-package com.example.student.service;
+package com.example.student.service.impl;
 
 import com.example.student.dtos.UserLogin;
 import com.example.student.dtos.UserRegister;
 import com.example.student.entity.Role;
 import com.example.student.entity.User;
+import com.example.student.exceptionHandling.EmailAlreadyExistsException;
+import com.example.student.exceptionHandling.InvalidCredentialsException;
 import com.example.student.mapper.UserMapper;
 import com.example.student.repository.RoleRepo;
 import com.example.student.repository.UserRepo;
+import com.example.student.service.AuthService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -34,7 +36,7 @@ public class AuthServiceImpl implements AuthService {
     @Override
     public ResponseEntity<String> register(UserRegister registerDto) {
         if (userRepo.findByEmail(registerDto.getEmail()) != null) {
-            return ResponseEntity.badRequest().body("Email already exists");
+            throw new EmailAlreadyExistsException("Email already exists with email: " + registerDto.getEmail());
         }
 
         Role roleUser = roleRepo.findByName("ROLE_USER");
@@ -60,11 +62,13 @@ public class AuthServiceImpl implements AuthService {
 
         User user = userRepo.findByEmail(email);
         if (user == null) {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("User not found");
+            throw new InvalidCredentialsException("User not found with email: " + email);
+
         }
 
         if (!passwordEncoder.matches(password, user.getPassword())) {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid password");
+            throw new InvalidCredentialsException("Invalid password for user: " + email);
+
         }
 
         return ResponseEntity.ok("Login successful for " + user.getName());

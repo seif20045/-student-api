@@ -32,8 +32,13 @@ public class PageController {
     }
 
     @PostMapping("/register-form")
-    public String registerUser(@Valid @ModelAttribute("userRegister") UserRegister registerDto) {
-        System.out.println("DTO from form => " + registerDto);
+    public String registerUser(@Valid @ModelAttribute("userRegister") UserRegister registerDto, Model model) {
+        String result = pageService.register(registerDto);
+
+        if (result.equals("EmailAlreadyExists")) {
+            model.addAttribute("error", "EmailAlreadyExists");
+            return "register";
+        }
         return pageService.register(registerDto);
     }
 }
