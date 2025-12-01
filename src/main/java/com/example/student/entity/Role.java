@@ -1,4 +1,4 @@
-package com.example.student.model;
+package com.example.student.entity;
 
 import jakarta.persistence.*;
 import org.springframework.security.core.GrantedAuthority;
