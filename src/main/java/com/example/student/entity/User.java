@@ -1,4 +1,4 @@
-package com.example.student.model;
+package com.example.student.entity;
 
 import jakarta.persistence.*;
 
@@ -12,6 +12,7 @@ public class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
     private String name;
+    @Column(unique = true, nullable = false)
     private String email;
     private String password;
 
