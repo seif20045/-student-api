@@ -1,6 +1,6 @@
 package com.example.student.security;
 
-import com.example.student.model.User;
+import com.example.student.entity.User;
 import com.example.student.repository.UserRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;

@@ -1,29 +1,19 @@
 package com.example.student.controllers;
 
-import com.example.student.model.Role;
-import com.example.student.model.User;
-import com.example.student.repository.RoleRepo;
-import com.example.student.repository.UserRepo;
+import com.example.student.dtos.UserRegister;
+import com.example.student.service.PageService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-
-import java.util.Set;
 
 @Controller
 public class PageController {
     @Autowired
-    private UserRepo userRepo;
-
-    @Autowired
-    private RoleRepo roleRepo;
-
-    @Autowired
-    private PasswordEncoder passwordEncoder;
+    private PageService pageService;
 
     @GetMapping("/login")
     public String login() {
@@ -36,27 +26,14 @@ public class PageController {
     }
 
     @GetMapping("/register")
-    public String register() {
-        return "register";
+    public String register(Model model) {
+        model.addAttribute("userRegister", new UserRegister());
+        return "register"; // بيرجع لملف register.html
     }
 
     @PostMapping("/register-form")
-    public String registerUser(@Valid @RequestParam String username, @RequestParam String email, @RequestParam String password) {
-        if (username.isBlank() || email.isBlank() || password.isBlank()) {
-
-            return "redirect:/register";
-        }
-
-        Role roleUser = roleRepo.findByName("ROLE_USER");
-        User user = new User();
-        user.setName(username);
-        user.setEmail(email);
-        user.setPassword(passwordEncoder.encode(password));
-        user.setRoles(Set.of(roleUser));
-
-        userRepo.save(user);
-
-        return "redirect:/login";
-
+    public String registerUser(@Valid @ModelAttribute("userRegister") UserRegister registerDto) {
+        System.out.println("DTO from form => " + registerDto);
+        return pageService.register(registerDto);
     }
 }
